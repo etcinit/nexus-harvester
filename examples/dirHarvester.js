@@ -10,7 +10,7 @@ var NexusHarvester = require('../src/NexusHarvester'),
 
 dirClient = NexusClient.build(
     'http://localhost:5000',
-    'THISISYOURKEY'
+    'THISISWHEREYOURAPIKEYGOES'
 );
 
 dirHarvester = new NexusHarvester(path.resolve(__dirname, './logs'), dirClient);

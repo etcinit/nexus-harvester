@@ -1,4 +1,4 @@
-"use string";
+"use strict";
 
 var NexusHarvester,
 
@@ -11,7 +11,7 @@ var NexusHarvester,
     Nothing = ensure.Nothing,
     NexusClient = require('nexus-client-js');
 
-NexusHarvester = shield([String, NexusClient], Nothing, function (logPath, client) {
+NexusHarvester = function (logPath, client) {
     var self = this;
 
     winston.info('Initializing a new log harvester');
@@ -27,9 +27,11 @@ NexusHarvester = shield([String, NexusClient], Nothing, function (logPath, clien
     this.keepAlive = function () {
         winston.info('ALIVE');
 
-        this.push(null, null);
+        if (self.push) {
+            self.push(null, null);
+        }
 
-        setTimeout(this.keepAlive.bind(this), 10000);
+        setTimeout(self.keepAlive, 10000);
     };
 
     this.readNewLines = function (filePath, currPos, prevPos) {
@@ -49,7 +51,7 @@ NexusHarvester = shield([String, NexusClient], Nothing, function (logPath, clien
             self.push(path.basename(filePath), lines);
         })
     };
-});
+};
 
 NexusHarvester.prototype.watch = function () {
     fs.readdir(this.path, function (err, files) {
@@ -68,7 +70,7 @@ NexusHarvester.prototype.watch = function () {
         monitor.on('removed', function (filePath, stat) {
             winston.info('REMOVED: ' + filePath);
         });
-    });
+    }.bind(this));
 
     this.keepAlive();
 };
