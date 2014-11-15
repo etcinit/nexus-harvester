@@ -1,0 +1,17 @@
+{
+  "name": "nexus-harvester",
+  "version": "0.0.1",
+  "description": "Log harvester for the Nexus Configuration Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "Eduarod Trujillo",
+  "license": "MIT",
+  "dependencies": {
+    "ensure.js": "^0.5.3",
+    "nexus-client-js": "0.0.4",
+    "watch": "^0.13.0",
+    "winston": "^0.8.3"
+  }
+}
