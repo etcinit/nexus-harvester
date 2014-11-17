@@ -55,9 +55,11 @@ NexusHarvester = function (logPath, client) {
 
 NexusHarvester.prototype.watch = function () {
     fs.readdir(this.path, function (err, files) {
-        files.forEach(function (filename) {
-            this.watchFile(path.resolve(this.path, filename));
-        }.bind(this))
+        if (files) {
+            files.forEach(function (filename) {
+                this.watchFile(path.resolve(this.path, filename));
+            }.bind(this))
+        }
     }.bind(this));
 
     watch.createMonitor(this.path, function (monitor) {
