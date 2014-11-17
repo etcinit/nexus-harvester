@@ -35,7 +35,7 @@ NexusHarvester = function (logPath, client) {
     };
 
     this.readNewLines = function (filePath, currPos, prevPos) {
-        if (currPos < prevPos) {
+        if (currPos <= prevPos) {
             return;
         }
 
@@ -47,6 +47,11 @@ NexusHarvester = function (logPath, client) {
 
         readStream.on('data', function (data) {
             var lines = data.split("\n");
+
+            // Only use lines that actually have characters
+            lines = lines.filter(function (line) {
+                return (line.length > 1);
+            });
 
             self.push(path.basename(filePath), lines);
         })
@@ -128,6 +133,13 @@ NexusHarvester.prototype.push = function (filename, lines) {
     if (needsPush) {
         for (key in this.linesCollection) {
             winston.info('Pushing lines to Nexus: ' + key);
+
+            // Remove newline chars
+            this.linesCollection[key] = this.linesCollection[key].map(function (line) {
+                var newline = line.trim().replace(/\n/, '');
+
+                return newline;
+            });
 
             this.client.log(key, this.linesCollection[key]);
 

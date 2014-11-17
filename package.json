@@ -1,6 +1,6 @@
 {
   "name": "nexus-harvester",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Log harvester for the Nexus Configuration Server",
   "main": "index.js",
   "scripts": {
