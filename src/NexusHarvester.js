@@ -132,7 +132,7 @@ NexusHarvester.prototype.push = function (filename, lines) {
 
     if (needsPush) {
         for (key in this.linesCollection) {
-            winston.info('Pushing lines to Nexus: ' + key);
+            winston.info('PUSHING: ' + key);
 
             // Remove newline chars
             this.linesCollection[key] = this.linesCollection[key].map(function (line) {
@@ -140,6 +140,13 @@ NexusHarvester.prototype.push = function (filename, lines) {
 
                 return newline;
             });
+
+            winston.info('----');
+            this.linesCollection[key].forEach(function (line) {
+                winston.info(line);
+            });
+            winston.info('----');
+
 
             this.client.log(key, this.linesCollection[key]);
 
